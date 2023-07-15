@@ -1,5 +1,5 @@
 {
-  "name": "threadsfix",
+  "name": "fixthreads",
   "version": "1.0.0",
   "main": "index.ts",
   "scripts": {

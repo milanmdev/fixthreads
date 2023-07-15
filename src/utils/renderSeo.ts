@@ -13,7 +13,7 @@ export default function renderSeo({ type, content }: DataProps) {
       <head>
         <link rel="canonical" href="${url}" />
         <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
-        <meta property="og:site_name" content="ThreadsFix - Consistent Embedding of Metadata for Threads" />
+        <meta property="og:site_name" content="FixThreads - Consistent Embedding of Metadata for Threads" />
         <meta
           property="og:description"
           content="${content.description}"
