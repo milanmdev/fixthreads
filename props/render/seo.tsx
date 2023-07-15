@@ -37,9 +37,9 @@ export default function RenderSeo({ type, content }: DataProps) {
     content.post ? `/post/${content.post}` : ""
   }`;
 
-  useEffect(() => {
+  /*useEffect(() => {
     window.location.assign(url);
-  }, [content.username]);
+  }, [content.username]);*/
 
   return (
     <main>

@@ -78,18 +78,45 @@ async function findPost({ post }: { post: string }) {
   if (!fetchThreadsAPIJson.data) {
     return false;
   }
-  let postObj = fetchThreadsAPIJson.data.data.containing_thread.thread_items[0];
 
-  let caption =
-    `💬 ${
-      postObj.view_replies_cta_string
-        ? postObj.view_replies_cta_string
-        : "0 replies"
-    }` +
-    "\n" +
-    `❤️ ${postObj.post.like_count} likes` +
-    `\n\n` +
-    (postObj.post.caption != null ? postObj.post.caption.text : "");
+  let index = 0;
+  let postObj =
+    fetchThreadsAPIJson.data.data.containing_thread.thread_items.filter(
+      (item: any) => {
+        index++;
+        if (item.post.code == post) return item;
+      }
+    )[0];
+
+  let caption;
+  if (index > 1) {
+    caption =
+      `💬 ${
+        postObj.view_replies_cta_string
+          ? postObj.view_replies_cta_string
+          : "0 replies"
+      }` +
+      "\n" +
+      `❤️ ${postObj.post.like_count} likes` +
+      "\n" +
+      `⤴️ Replying to @${
+        fetchThreadsAPIJson.data.data.containing_thread.thread_items[index-2]
+          .post.user.username
+      }` +
+      `\n\n` +
+      (postObj.post.caption != null ? postObj.post.caption.text : "");
+  } else {
+    caption =
+      `💬 ${
+        postObj.view_replies_cta_string
+          ? postObj.view_replies_cta_string
+          : "0 replies"
+      }` +
+      "\n" +
+      `❤️ ${postObj.post.like_count} likes` +
+      `\n\n` +
+      (postObj.post.caption != null ? postObj.post.caption.text : "");
+  }
 
   let images;
   let vidCnt = 0;
