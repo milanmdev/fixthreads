@@ -35,6 +35,18 @@ app.use((err: any, _req: Request, res: Response, _next: Function) => {
   }
 });
 
+app.get("/", async (_req: Request, res: Response, _next: Function) => {
+  try {
+    res.status(301).redirect("https://github.com/milanmdev/fixthreads");
+  } catch (e: any) {
+    res.status(500).json({
+      error: true,
+      message: e.message,
+      code: 500,
+    });
+  }
+});
+
 // 404
 app.all("*", async (_req: Request, res: Response, _next: Function) => {
   try {
