@@ -1,3 +1,4 @@
+import fetch from "node-fetch";
 import parse from "node-html-parser";
 
 async function findPost({ post }: { post: string }) {
@@ -32,6 +33,8 @@ async function findPost({ post }: { post: string }) {
         ) == true
       ) {
         return item.rawText;
+      } else {
+        return false;
       }
     });
     return findNested[0];
@@ -53,7 +56,7 @@ async function findPost({ post }: { post: string }) {
     doc_id: "5587632691339264",
     lsd: "uBfU8H0eeG06f5Mtrk851X",
   };
-  let formBody = [];
+  let formBody: string[] = [];
   for (let property in details) {
     let encodedKey = encodeURIComponent(property);
     // @ts-ignore
@@ -74,7 +77,7 @@ async function findPost({ post }: { post: string }) {
     },
     body: finalFormBody,
   });
-  let fetchThreadsAPIJson = await fetchThreadsAPI.json();
+  let fetchThreadsAPIJson = (await fetchThreadsAPI.json()) as any;
   if (!fetchThreadsAPIJson.data) {
     return false;
   }
@@ -100,7 +103,7 @@ async function findPost({ post }: { post: string }) {
       `❤️ ${postObj.post.like_count} likes` +
       "\n" +
       `⤴️ Replying to @${
-        fetchThreadsAPIJson.data.data.containing_thread.thread_items[index-2]
+        fetchThreadsAPIJson.data.data.containing_thread.thread_items[index - 2]
           .post.user.username
       }` +
       `\n\n` +
@@ -128,8 +131,6 @@ async function findPost({ post }: { post: string }) {
       }
       return {
         url: item.image_versions2.candidates[0].url,
-        width: item.original_width,
-        height: item.original_height,
       };
     });
     images = images.filter((item: any) => {
@@ -140,8 +141,6 @@ async function findPost({ post }: { post: string }) {
       images = [
         {
           url: postObj.post.image_versions2.candidates[0].url,
-          width: postObj.post.original_width,
-          height: postObj.post.original_height,
         },
       ];
     } else {
@@ -153,14 +152,12 @@ async function findPost({ post }: { post: string }) {
     }
   }
 
-  let video = null;
+  let video: VideoProps[] = [];
   if (vidCnt > 0) {
     video = postObj.post.carousel_media.map((item: any) => {
       if (item.video_versions.length > 0) {
         return {
           url: item.video_versions[0].url,
-          width: item.original_width,
-          height: item.original_height,
         };
       } else {
         return;
@@ -174,8 +171,6 @@ async function findPost({ post }: { post: string }) {
       video = [
         {
           url: postObj.post.video_versions[0].url,
-          width: postObj.post.original_width,
-          height: postObj.post.original_height,
         },
       ];
     }

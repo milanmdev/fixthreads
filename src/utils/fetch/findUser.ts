@@ -1,3 +1,4 @@
+import fetch from "node-fetch";
 import parse from "node-html-parser";
 
 async function findUser({ username }: { username: string }) {
@@ -32,6 +33,8 @@ async function findUser({ username }: { username: string }) {
         ) == true
       ) {
         return item.rawText;
+      } else {
+        return false;
       }
     });
     return findNested[0];
@@ -53,7 +56,7 @@ async function findUser({ username }: { username: string }) {
     doc_id: "23996318473300828",
     lsd: "uBfU8H0eeG06f5Mtrk851X",
   };
-  let formBody = [];
+  let formBody: string[] = [];
   for (let property in details) {
     let encodedKey = encodeURIComponent(property);
     // @ts-ignore
@@ -74,13 +77,14 @@ async function findUser({ username }: { username: string }) {
     },
     body: finalFormBody,
   });
-  let fetchThreadsAPIJson = await fetchThreadsAPI.json();
+  let fetchThreadsAPIJson = (await fetchThreadsAPI.json()) as any;
   if (!fetchThreadsAPIJson.data) {
     return false;
   }
   let userObj = fetchThreadsAPIJson.data.userData.user;
 
-  let biography = `👤 ${userObj.follower_count} followers` + `\n\n` + userObj.biography;
+  let biography =
+    `👤 ${userObj.follower_count} followers` + `\n\n` + userObj.biography;
 
   let returnJson = {
     description: biography,
@@ -88,6 +92,7 @@ async function findUser({ username }: { username: string }) {
     images: [{ url: userObj.profile_pic_url }],
     username,
     imageType: "single",
+    video: [],
   };
 
   return returnJson;
