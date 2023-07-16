@@ -4,7 +4,7 @@ Fixes Meta's Threads metadata for sites like Discord, Telegram, etc.
 
 ## Usage
 
-When you send a `threads.net` link, preappend `fix` to make `fixthreads.net` and then send it.
+When you send a `threads.net` link, prepend `fix` to make `fixthreads.net` and then send it.
 
 ## Support
 
