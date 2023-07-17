@@ -1,6 +1,7 @@
 import express from "express";
 import { Request, Response } from "express";
 import cors from "cors";
+import "dotenv/config";
 const cloudflare = require("cloudflare-express");
 
 import { HttpError } from "./utils/utils";

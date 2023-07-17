@@ -27,7 +27,7 @@ export default function renderSeo({ type, content }: DataProps) {
         }" />
         <meta property="og:image" content="${content.images[0].url}" />
 
-        <link href="https://local.milanm.cc/oembed?text=${encodeURIComponent(
+        <link href="${process.env.ENVIRONMENT == "production" ? "https://fixthreads.net" : "https://local.milanm.cc"}/oembed?text=${encodeURIComponent(
           content.oembedStat
         )}&url=${encodeURIComponent(url)}" type="application/json+oembed">
         <meta http-equiv="refresh" content="0;url=${url}" />

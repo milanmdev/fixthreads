@@ -1,6 +1,6 @@
 {
   "name": "fixthreads",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "main": "index.ts",
   "scripts": {
     "start": "tsx ./src/index.ts",
@@ -10,6 +10,7 @@
   "dependencies": {
     "cloudflare-express": "^1.0.1",
     "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
     "express": "^4.17.1",
     "express-rate-limit": "6.7.1",
     "gts": "^3.1.1",
