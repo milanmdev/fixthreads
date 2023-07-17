@@ -38,7 +38,7 @@ export default function renderSeo({ type, content }: DataProps) {
               content.imageType == "carousel"
                 ? "summary_large_image"
                 : "summary"
-            } />
+            }" />
             <meta property="og:image" content="${content.images[0].url}" />`
             : `
             <meta name="twitter:card" content="player" />
