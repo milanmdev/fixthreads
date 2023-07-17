@@ -1,5 +1,7 @@
 import { GlobalVars } from "./utils";
 
+let proxies = process.env.PROXIES?.split(",") || [];
+
 export default function renderSeo({ type, content }: DataProps) {
   if (!type || !content) {
     return "No type/content provided - this is not expected so if you're a client report this to milan@milanm.org";
@@ -8,6 +10,13 @@ export default function renderSeo({ type, content }: DataProps) {
   let url = `https://www.threads.net/${content.username}${
     content.post ? `/post/${content.post}` : ""
   }`;
+
+  let proxy = proxies[Math.floor(Math.random() * proxies.length)];
+
+  let videoURL = "";
+  if (content.video.length > 0) {
+    videoURL = `https://${proxy}/${encodeURIComponent(content.video[0].url)}`;
+  }
 
   return `
     <!DOCTYPE html>
@@ -22,14 +31,31 @@ export default function renderSeo({ type, content }: DataProps) {
         />
         <meta property="og:title" content="${content.title}">
 
-        <meta name="twitter:card" content="${
-          content.imageType == "carousel" ? "summary_large_image" : "summary"
-        }" />
-        <meta property="og:image" content="${content.images[0].url}" />
+        ${
+          content.video.length == 0
+            ? `
+            <meta name="twitter:card" content="${
+              content.imageType == "carousel"
+                ? "summary_large_image"
+                : "summary"
+            } />
+            <meta property="og:image" content="${content.images[0].url}" />`
+            : `
+            <meta name="twitter:card" content="player" />
+            <meta name="twitter:player" content="${videoURL}" />
+            <meta property="og:video:url" content="${videoURL}">
+            <meta property="og:video:secure_url" content="${videoURL}">
+            <meta property="og:video:type" content="video/mp4">
+            `
+        }
 
-        <link href="${process.env.ENVIRONMENT == "production" ? "https://fixthreads.net" : "https://local.milanm.cc"}/oembed?text=${encodeURIComponent(
-          content.oembedStat
-        )}&url=${encodeURIComponent(url)}" type="application/json+oembed">
+        <link href="${
+          process.env.ENVIRONMENT == "production"
+            ? "https://fixthreads.net"
+            : "https://local.milanm.cc"
+        }/oembed?text=${encodeURIComponent(
+    content.oembedStat
+  )}&url=${encodeURIComponent(url)}" type="application/json+oembed">
         <meta http-equiv="refresh" content="0;url=${url}" />
       </head>
     </html>
