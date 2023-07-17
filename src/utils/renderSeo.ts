@@ -1,3 +1,5 @@
+import { GlobalVars } from "./utils";
+
 export default function renderSeo({ type, content }: DataProps) {
   if (!type || !content) {
     return "No type/content provided - this is not expected so if you're a client report this to milan@milanm.org";
@@ -13,7 +15,7 @@ export default function renderSeo({ type, content }: DataProps) {
       <head>
         <link rel="canonical" href="${url}" />
         <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
-        <meta property="og:site_name" content="FixThreads - Consistent Embedding of Metadata for Threads" />
+        <meta property="og:site_name" content="${GlobalVars.name}" />
         <meta
           property="og:description"
           content="${content.description}"
@@ -25,6 +27,9 @@ export default function renderSeo({ type, content }: DataProps) {
         }" />
         <meta property="og:image" content="${content.images[0].url}" />
 
+        <link href="https://local.milanm.cc/oembed?text=${encodeURIComponent(
+          content.oembedStat
+        )}&url=${encodeURIComponent(url)}" type="application/json+oembed">
         <meta http-equiv="refresh" content="0;url=${url}" />
       </head>
     </html>

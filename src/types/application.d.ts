@@ -14,9 +14,20 @@ interface ContentProps {
   post?: string;
   imageType: string;
   video: VideoProps[];
+  oembedStat: string;
 }
 
 interface DataProps {
   type: string;
   content: ContentProps;
+}
+
+interface OembedPostProps {
+  author_name: string;
+  author_url: string;
+  provider_name: string;
+  provider_url: string;
+  title: string;
+  type: string;
+  version: string;
 }

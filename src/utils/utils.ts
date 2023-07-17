@@ -9,4 +9,8 @@ class HttpError {
   }
 }
 
-export { HttpError };
+let GlobalVars = {
+  name: "FixThreads - Consistent Embedding of Metadata for Threads",
+};
+
+export { HttpError, GlobalVars };

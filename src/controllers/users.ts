@@ -1,16 +1,11 @@
 import express from "express";
 import { HttpError } from "../utils/utils";
 import findUser from "../utils/fetch/findUser";
-import rateLimit from "../utils/ratelimit";
 import renderSeo from "../utils/renderSeo";
 const router = express.Router();
 
 router.get(
   "/:username",
-  /*rateLimit({
-    windowMs: 1000,
-    max: 5,
-  }),*/
   async (req, res, next) => {
     try {
       if (!req.params.username)

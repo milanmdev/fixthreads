@@ -94,14 +94,6 @@ async function findPost({ post }: { post: string }) {
   let caption;
   if (index > 1) {
     caption =
-      `💬 ${
-        postObj.view_replies_cta_string
-          ? postObj.view_replies_cta_string
-          : "0 replies"
-      }` +
-      "\n" +
-      `❤️ ${postObj.post.like_count} likes` +
-      "\n" +
       `⤴️ Replying to @${
         fetchThreadsAPIJson.data.data.containing_thread.thread_items[index - 2]
           .post.user.username
@@ -109,17 +101,16 @@ async function findPost({ post }: { post: string }) {
       `\n\n` +
       (postObj.post.caption != null ? postObj.post.caption.text : "");
   } else {
-    caption =
-      `💬 ${
-        postObj.view_replies_cta_string
-          ? postObj.view_replies_cta_string
-          : "0 replies"
-      }` +
-      "\n" +
-      `❤️ ${postObj.post.like_count} likes` +
-      `\n\n` +
-      (postObj.post.caption != null ? postObj.post.caption.text : "");
+    caption = postObj.post.caption != null ? postObj.post.caption.text : "";
   }
+
+  let oembedStat = `❤️ ${postObj.post.like_count} like${
+    postObj.post.like_count > 1 ? "s" : ""
+  } | 💬 ${
+    postObj.view_replies_cta_string
+      ? postObj.view_replies_cta_string
+      : "0 replies"
+  }`;
 
   let images;
   let vidCnt = 0;
@@ -188,6 +179,7 @@ async function findPost({ post }: { post: string }) {
         ? "carousel"
         : "single",
     video,
+    oembedStat,
   };
 
   return returnJson;

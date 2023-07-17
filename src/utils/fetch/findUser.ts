@@ -83,15 +83,17 @@ async function findUser({ username }: { username: string }) {
   }
   let userObj = fetchThreadsAPIJson.data.userData.user;
 
-  let biography =
-    `👤 ${userObj.follower_count} followers` + `\n\n` + userObj.biography;
+  let oembedStat = `👤 ${userObj.follower_count} follower${
+    (userObj.follower_count = 0 || userObj.follower_count) > 1 ? "s" : ""
+  }`;
 
   let returnJson = {
-    description: biography,
+    description: userObj.biography,
     title: `${userObj.full_name} (@${userObj.username}) on Threads`,
     images: [{ url: userObj.profile_pic_url }],
     username,
     imageType: "single",
+    oembedStat,
     video: [],
   };
 
