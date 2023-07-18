@@ -1,7 +1,13 @@
 import fetch from "node-fetch";
 import parse from "node-html-parser";
 
-async function findUser({ username }: { username: string }) {
+async function findUser({
+  username,
+  userAgent,
+}: {
+  username: string;
+  userAgent: string;
+}) {
   const postRes = await fetch(`https://www.threads.net/${username}`, {
     headers: {
       Accept:
@@ -96,6 +102,7 @@ async function findUser({ username }: { username: string }) {
     imageType: "single",
     oembedStat,
     video: [],
+    userAgent,
   };
 
   return returnJson;

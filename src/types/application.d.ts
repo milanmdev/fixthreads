@@ -16,6 +16,7 @@ interface ContentProps {
   video: VideoProps[];
   oembedStat: string;
   quotedPost?: QuotedPostProps;
+  userAgent: string;
 }
 
 interface DataProps {

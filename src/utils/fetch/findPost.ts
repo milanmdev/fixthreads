@@ -1,7 +1,13 @@
 import fetch from "node-fetch";
 import parse from "node-html-parser";
 
-async function findPost({ post }: { post: string }) {
+async function findPost({
+  post,
+  userAgent,
+}: {
+  post: string;
+  userAgent: string;
+}) {
   const postRes = await fetch(`https://www.threads.net/t/${post}`, {
     headers: {
       Accept:
@@ -208,6 +214,7 @@ async function findPost({ post }: { post: string }) {
     video,
     oembedStat,
     quotedPost,
+    userAgent,
   };
 
   return returnJson;

@@ -18,6 +18,8 @@ export default function renderSeo({ type, content }: DataProps) {
     videoURL = `https://${proxy}/${encodeURIComponent(content.video[0].url)}`;
   }
 
+  if (content.userAgent.includes("Telegram")) content.video = [];
+
   return `
     <!DOCTYPE html>
     <html>
@@ -43,7 +45,7 @@ export default function renderSeo({ type, content }: DataProps) {
             : `
             <meta name="twitter:card" content="player" />
             <meta name="twitter:player" content="${videoURL}" />
-            <meta property="og:video:url" content="${videoURL}">
+            <meta property="og:video" content="${videoURL}">
             <meta property="og:video:secure_url" content="${videoURL}">
             <meta property="og:video:type" content="video/mp4">
             `
