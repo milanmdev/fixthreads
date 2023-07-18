@@ -82,6 +82,7 @@ async function findPost({ post }: { post: string }) {
     return false;
   }
 
+  /* Handle Post Finding */
   let index = 0;
   let postObj =
     fetchThreadsAPIJson.data.data.containing_thread.thread_items.filter(
@@ -91,6 +92,7 @@ async function findPost({ post }: { post: string }) {
       }
     )[0];
 
+  /* Handle Captions */
   let caption;
   if (index > 1) {
     caption =
@@ -103,15 +105,18 @@ async function findPost({ post }: { post: string }) {
   } else {
     caption = postObj.post.caption != null ? postObj.post.caption.text : "";
   }
+  let description = caption;
 
+  /* Setup oEmbed */
   let oembedStat = `❤️ ${postObj.post.like_count} like${
-    postObj.post.like_count > 1 ? "s" : ""
+    postObj.post.like_count > 1 || postObj.post.like_count == 0 ? "s" : ""
   } | 💬 ${
     postObj.view_replies_cta_string
       ? postObj.view_replies_cta_string
       : "0 replies"
   }`;
 
+  /* Handle Images */
   let images;
   let vidCnt = 0;
   if (postObj.post.carousel_media_count > 0) {
@@ -143,6 +148,7 @@ async function findPost({ post }: { post: string }) {
     }
   }
 
+  /* Handle Videos */
   let video: VideoProps[] = [];
   if (vidCnt > 0) {
     video = postObj.post.carousel_media.map((item: any) => {
@@ -167,8 +173,29 @@ async function findPost({ post }: { post: string }) {
     }
   }
 
+  /* Handle Quote Repost Posts */
+  let quotedPost: QuotedPostProps = {
+    username: "",
+    caption: "",
+    quoted: false,
+  };
+  if (postObj.post.text_post_app_info.share_info.quoted_post != null) {
+    quotedPost = {
+      username:
+        postObj.post.text_post_app_info.share_info.quoted_post.user.username,
+      caption:
+        postObj.post.text_post_app_info.share_info.quoted_post.caption.text,
+      quoted: true,
+    };
+
+    description =
+      description +
+      `\n\n↪ Quoting @${quotedPost.username}\n` +
+      quotedPost.caption;
+  }
+
   let returnJson = {
-    description: caption,
+    description,
     title: `@${postObj.post.user.username} on Threads`,
     images,
     post,
@@ -180,6 +207,7 @@ async function findPost({ post }: { post: string }) {
         : "single",
     video,
     oembedStat,
+    quotedPost,
   };
 
   return returnJson;

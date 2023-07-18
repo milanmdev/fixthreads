@@ -83,6 +83,7 @@ async function findUser({ username }: { username: string }) {
   }
   let userObj = fetchThreadsAPIJson.data.userData.user;
 
+  /* Setup oEmbed */
   let oembedStat = `👤 ${userObj.follower_count} follower${
     (userObj.follower_count = 0 || userObj.follower_count) > 1 ? "s" : ""
   }`;

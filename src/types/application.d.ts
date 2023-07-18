@@ -15,6 +15,7 @@ interface ContentProps {
   imageType: string;
   video: VideoProps[];
   oembedStat: string;
+  quotedPost?: QuotedPostProps;
 }
 
 interface DataProps {
@@ -30,4 +31,10 @@ interface OembedPostProps {
   title: string;
   type: string;
   version: string;
+}
+
+interface QuotedPostProps {
+  username: string;
+  caption: string;
+  quoted: boolean;
 }
