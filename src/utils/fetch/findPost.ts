@@ -33,11 +33,7 @@ async function findPost({
   let script = parsed.getElementsByTagName("script");
   let scriptFilter = script.filter((item) => {
     let findNested = item.childNodes.filter((item) => {
-      if (
-        item.rawText.startsWith(
-          `requireLazy(["JSScheduler","ServerJS","ScheduledApplyEach"]`
-        ) == true
-      ) {
+      if (item.rawText.startsWith(`{"require":[["ScheduledServerJS`) == true) {
         return item.rawText;
       } else {
         return false;
@@ -45,17 +41,9 @@ async function findPost({
     });
     return findNested[0];
   });
-  let splitToJson =
-    scriptFilter[0].childNodes[0].rawText.split(`ScheduledApplyEach,`);
-  let splitToJson2 = splitToJson[1].split(`);}`);
-  let splitJson = JSON.parse(splitToJson2[0]);
-  let filterJson = splitJson.require.filter((item: any) => {
-    if (item[1] && item[1] == "init") return item;
-  });
-  if (!filterJson[0][3][3]) {
-    return false;
-  }
-  let id = filterJson[0][3][3].rootView.props.post_id; // this should probably cleaned up this is rly messy
+  let splitJson = JSON.parse(scriptFilter[0].childNodes[0].rawText);
+  let id =
+    splitJson.require[0][3][0].__bbox.require[2][3][4][0].variables.postID; // this should probably cleaned up this is rly messy
 
   let details = {
     variables: `{"postID":"${id}"}`,
@@ -114,11 +102,11 @@ async function findPost({
   let description = caption;
 
   /* Setup oEmbed */
-  let oembedStat = `❤️ ${postObj.post.like_count} like${
+  let oembedStat = `❤️ ${postObj.post.like_count.toLocaleString()} like${
     postObj.post.like_count > 1 || postObj.post.like_count == 0 ? "s" : ""
   } | 💬 ${
     postObj.view_replies_cta_string
-      ? postObj.view_replies_cta_string
+      ? postObj.view_replies_cta_string.toLocaleString()
       : "0 replies"
   }`;
 
