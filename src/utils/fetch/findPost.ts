@@ -1,5 +1,4 @@
 import fetch from "node-fetch";
-import parse from "node-html-parser";
 
 async function findPost({
   post,
@@ -8,45 +7,20 @@ async function findPost({
   post: string;
   userAgent: string;
 }) {
-  const postRes = await fetch(`https://www.threads.net/t/${post}`, {
-    headers: {
-      Accept:
-        "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
-      "Accept-Encoding": "gzip, deflate, br",
-      "Accept-Language": "en-US,en;q=0.5",
-      "Cache-Control": "no-cache",
-      Connection: "	keep-alive",
-      Host: "www.threads.net",
-      Pragma: "no-cache",
-      "Sec-Fetch-Dest": "	document",
-      "Sec-Fetch-Mode": "	navigate",
-      "Sec-Fetch-Site": "	none",
-      "Sec-Fetch-User": "	?1",
-      "Upgrade-Insecure-Requests": "1",
-      "User-Agent":
-        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:109.0) Gecko/20100101 Firefox/114.0",
-    },
-  });
-  const postResJson = await postRes.text();
-
-  const parsed = parse(postResJson);
-  let script = parsed.getElementsByTagName("script");
-  let scriptFilter = script.filter((item) => {
-    let findNested = item.childNodes.filter((item) => {
-      if (item.rawText.startsWith(`{"require":[["ScheduledServerJS`) == true) {
-        return item.rawText;
-      } else {
-        return false;
-      }
-    });
-    return findNested[0];
-  });
-  let splitJson = JSON.parse(scriptFilter[0].childNodes[0].rawText);
-  let id =
-    splitJson.require[0][3][0].__bbox.require[2][3][4][0].variables.postID; // this should probably cleaned up this is rly messy
+  // Credit to threads-api for this snippet
+  let threadID = post;
+  threadID = threadID.split("?")[0];
+  threadID = threadID.replace(/\s/g, "");
+  threadID = threadID.replace(/\//g, "");
+  const alphabet =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
+  let postID = 0n;
+  for (const letter of threadID) {
+    postID = postID * 64n + BigInt(alphabet.indexOf(letter));
+  }
 
   let details = {
-    variables: `{"postID":"${id}"}`,
+    variables: `{"postID":"${postID.toString()}"}`,
     doc_id: "5587632691339264",
     lsd: "uBfU8H0eeG06f5Mtrk851X",
   };

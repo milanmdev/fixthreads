@@ -1,5 +1,4 @@
 import fetch from "node-fetch";
-import parse from "node-html-parser";
 
 async function findUser({
   username,
@@ -27,23 +26,11 @@ async function findUser({
         "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:109.0) Gecko/20100101 Firefox/114.0",
     },
   });
-  const postResJson = await postRes.text();
-
-  const parsed = parse(postResJson);
-  let script = parsed.getElementsByTagName("script");
-  let scriptFilter = script.filter((item) => {
-    let findNested = item.childNodes.filter((item) => {
-      if (item.rawText.startsWith(`{"require":[["ScheduledServerJS`) == true) {
-        return item.rawText;
-      } else {
-        return false;
-      }
-    });
-    return findNested[0];
-  });
-  let splitJson = JSON.parse(scriptFilter[0].childNodes[0].rawText);
-  let id =
-    splitJson.require[0][3][0].__bbox.require[3][3][4][0].variables.userID; // this should probably cleaned up this is rly messy
+  // Credit to threads-api for this snippet
+  let postResText: string = await postRes.text();
+  postResText = postResText.replace(/\s/g, "");
+  postResText = postResText.replace(/\n/g, "");
+  const id: string | undefined = postResText.match(/"user_id":"(\d+)"/)?.[1];
 
   let details = {
     variables: `{"userID":"${id}"}`,
