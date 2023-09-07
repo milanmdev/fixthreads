@@ -1,5 +1,6 @@
 import express from "express";
 import { HttpError, GlobalVars } from "../utils/utils";
+import packageFile from "../../package.json";
 const router = express.Router();
 
 router.get("/oembed", async (req, res, next) => {
@@ -23,6 +24,20 @@ router.get("/oembed", async (req, res, next) => {
     return res.json(embed);
   } catch (e: any) {
     res.status(500).json({
+      error: true,
+      message: e.message,
+    });
+  }
+});
+
+router.get("/health", async (_req, res, _next) => {
+  try {
+    return res.json({
+      status: "ok",
+      version: packageFile.version,
+    });
+  } catch (e: any) {
+    return res.status(500).json({
       error: true,
       message: e.message,
     });
