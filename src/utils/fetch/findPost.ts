@@ -118,26 +118,28 @@ async function findPost({
 
   /* Handle Videos */
   let video: VideoProps[] = [];
-  if (vidCnt > 0) {
-    video = postObj.post.carousel_media.map((item: any) => {
-      if (item.video_versions.length > 0) {
-        return {
-          url: item.video_versions[0].url,
-        };
-      } else {
-        return;
+  if (postObj.post.video_versions || vidCnt >= 1) {
+    if (vidCnt > 0) {
+      video = postObj.post.carousel_media.map((item: any) => {
+        if (item.video_versions.length > 0) {
+          return {
+            url: item.video_versions[0].url,
+          };
+        } else {
+          return;
+        }
+      });
+      video = video.filter((item: any) => {
+        if (item) return item;
+      });
+    } else {
+      if (postObj.post.video_versions.length > 0) {
+        video = [
+          {
+            url: postObj.post.video_versions[0].url,
+          },
+        ];
       }
-    });
-    video = video.filter((item: any) => {
-      if (item) return item;
-    });
-  } else {
-    if (postObj.post.video_versions.length > 0) {
-      video = [
-        {
-          url: postObj.post.video_versions[0].url,
-        },
-      ];
     }
   }
 
