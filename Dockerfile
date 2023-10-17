@@ -4,7 +4,7 @@ LABEL org.opencontainers.image.description "Fixes Meta's Threads metadata for si
 LABEL org.opencontainers.image.source "https://github.com/milanmdev/fixthreads"
 
 WORKDIR /build
-COPY package.json ./
+COPY package.json yarn.lock ./
 RUN yarn install --frozen-lockfile
 COPY . .
 CMD yarn start
