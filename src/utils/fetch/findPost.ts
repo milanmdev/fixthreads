@@ -89,7 +89,7 @@ async function findPost({
   let vidCnt = 0;
   if (postObj.post.carousel_media_count > 0) {
     images = postObj.post.carousel_media.map((item: any) => {
-      if (item.video_versions.length > 0) {
+      if (item.video_versions !== null && item.video_versions.length > 0) {
         vidCnt++;
         return;
       }
