@@ -2653,10 +2653,10 @@ tsutils@^3.21.0:
   dependencies:
     tslib "^1.8.1"
 
-tsx@4.1.2:
-  version "4.1.2"
-  resolved "https://registry.yarnpkg.com/tsx/-/tsx-4.1.2.tgz#32ffc80efa6f77748928293fa8f77fcf2b90feab"
-  integrity sha512-1spM1bFV6MP2s4tO4tDC7g52fsaFdtEWdO4GfGdqi20qUgPbnAJqixOyIAvCSx1DDj3YIUB4CD06owTWUsOAuQ==
+tsx@4.1.4:
+  version "4.1.4"
+  resolved "https://registry.yarnpkg.com/tsx/-/tsx-4.1.4.tgz#e8c18cb5e890b410915d3cfa92b94d5e3147f465"
+  integrity sha512-9X7uBCIyUsvMzIH+o8m+5o/5eL461cChCF+XUtOZsPr1a4pZx2lTQx0Muu5G5VwJWZwAGKBe3sJHLk82BENAVw==
   dependencies:
     esbuild "~0.18.20"
     get-tsconfig "^4.7.2"
