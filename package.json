@@ -15,7 +15,7 @@
     "express-rate-limit": "7.1.4",
     "gts": "^5.0.0",
     "node-fetch": "^3.3.2",
-    "tsx": "4.1.4"
+    "tsx": "4.2.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.13",
