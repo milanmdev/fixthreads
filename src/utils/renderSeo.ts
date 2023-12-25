@@ -26,7 +26,9 @@ export default function renderSeo({ type, content }: DataProps) {
       <head>
         <link rel="canonical" href="${url}" />
         <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
-        <meta property="og:site_name" content="${GlobalVars.name}" />
+        <meta property="og:site_name" content="${
+          videoURL ? content.description : GlobalVars.name
+        }" />
         <meta
           property="og:description"
           content="${content.description}"
@@ -51,13 +53,16 @@ export default function renderSeo({ type, content }: DataProps) {
             `
         }
 
+
         <link href="${
           process.env.ENVIRONMENT == "production"
             ? "https://fixthreads.net"
             : "https://local.milanm.cc"
         }/oembed?text=${encodeURIComponent(
-    content.oembedStat
-  )}&url=${encodeURIComponent(url)}" type="application/json+oembed">
+          content.oembedStat
+        )}&url=${encodeURIComponent(url)}&videoText=${
+          videoURL ? encodeURIComponent(content.description) : ""
+        }" type="application/json+oembed">
         <meta http-equiv="refresh" content="0;url=${url}" />
       </head>
     </html>
