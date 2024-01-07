@@ -14,7 +14,9 @@ router.get("/oembed", async (req, res, next) => {
     let embed: OembedPostProps = {
       author_name: req.query.text as string,
       author_url: req.query.url as string,
-      provider_name: req.query.videoText ? req.query.videoText as string : GlobalVars.name,
+      provider_name: req.query.videoText
+        ? (req.query.videoText as string)
+        : GlobalVars.name,
       provider_url: "https://github.com/milanmdev/fixthreads",
       title: "Threads",
       type: "link",

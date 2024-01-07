@@ -4,7 +4,7 @@ let proxies = process.env.PROXIES?.split(",") || [];
 
 export default function renderSeo({ type, content }: DataProps) {
   if (!type || !content) {
-    return "No type/content provided - this is not expected so if you're a client report this to milan@milanm.org";
+    return "No type/content provided - this is not expected so if you're a client, report this to milan@milanm.org";
   }
 
   let url = `https://www.threads.net/${content.username}${
@@ -20,6 +20,14 @@ export default function renderSeo({ type, content }: DataProps) {
 
   if (content.userAgent.includes("Telegram")) content.video = [];
 
+  if (
+    content.description &&
+    content.video.length > 0 &&
+    content.description.length > 100
+  ) {
+    content.description = content.description.slice(0, 253) + "...";
+  }
+
   return `
     <!DOCTYPE html>
     <html>
@@ -27,7 +35,7 @@ export default function renderSeo({ type, content }: DataProps) {
         <link rel="canonical" href="${url}" />
         <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
         <meta property="og:site_name" content="${
-          videoURL ? content.description : GlobalVars.name
+          content.video.length > 0 ? content.description : GlobalVars.name
         }" />
         <meta
           property="og:description"
@@ -53,7 +61,6 @@ export default function renderSeo({ type, content }: DataProps) {
             `
         }
 
-
         <link href="${
           process.env.ENVIRONMENT == "production"
             ? "https://fixthreads.net"
@@ -61,7 +68,7 @@ export default function renderSeo({ type, content }: DataProps) {
         }/oembed?text=${encodeURIComponent(
           content.oembedStat
         )}&url=${encodeURIComponent(url)}&videoText=${
-          videoURL ? encodeURIComponent(content.description) : ""
+          content.video.length > 0 ? encodeURIComponent(content.description) : ""
         }" type="application/json+oembed">
         <meta http-equiv="refresh" content="0;url=${url}" />
       </head>
