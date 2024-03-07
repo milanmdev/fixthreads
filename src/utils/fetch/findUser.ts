@@ -33,9 +33,9 @@ async function findUser({
   const id: string | undefined = postResText.match(/"user_id":"(\d+)"/)?.[1];
 
   let details = {
-    variables: `{"userID":"${id}"}`,
-    doc_id: "23996318473300828",
-    lsd: "uBfU8H0eeG06f5Mtrk851X",
+    variables: `{"userID":"${id}","__relay_internal__pv__BarcelonaIsSableEnabledrelayprovider":false,"__relay_internal__pv__BarcelonaIsSuggestedUsersOnProfileEnabledrelayprovider":false,"__relay_internal__pv__BarcelonaShouldShowFediverseM075Featuresrelayprovider":false}`,
+    doc_id: "6924492170994454",
+    lsd: "GwDPK2EGiKW0LKebIEqqbF",
   };
   let formBody: string[] = [];
   for (let property in details) {
@@ -52,7 +52,7 @@ async function findUser({
       "Sec-Fetch-Site": " same-origin",
       "User-Agent":
         "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36",
-      "X-Fb-Lsd": "uBfU8H0eeG06f5Mtrk851X",
+      "X-Fb-Lsd": "GwDPK2EGiKW0LKebIEqqbF",
       "X-Ig-App-Id": "238260118697367",
       "Content-Type": "application/x-www-form-urlencoded",
     },
@@ -62,7 +62,7 @@ async function findUser({
   if (!fetchThreadsAPIJson.data) {
     return false;
   }
-  let userObj = fetchThreadsAPIJson.data.userData.user;
+  let userObj = fetchThreadsAPIJson.data.user;
 
   /* Setup oEmbed */
   let oembedStat = `👤 ${userObj.follower_count.toLocaleString()} follower${
