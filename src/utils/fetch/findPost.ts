@@ -20,9 +20,9 @@ async function findPost({
   }
 
   let details = {
-    variables: `{"postID":"${postID.toString()}"}`,
-    doc_id: "5587632691339264",
-    lsd: "uBfU8H0eeG06f5Mtrk851X",
+    variables: `{"check_for_unavailable_replies":true,"first":10,"postID":"${postID.toString()}","__relay_internal__pv__BarcelonaIsLoggedInrelayprovider":true,"__relay_internal__pv__BarcelonaIsThreadContextHeaderEnabledrelayprovider":false,"__relay_internal__pv__BarcelonaIsThreadContextHeaderFollowButtonEnabledrelayprovider":false,"__relay_internal__pv__BarcelonaUseCometVideoPlaybackEnginerelayprovider":false,"__relay_internal__pv__BarcelonaOptionalCookiesEnabledrelayprovider":false,"__relay_internal__pv__BarcelonaIsViewCountEnabledrelayprovider":false,"__relay_internal__pv__BarcelonaShouldShowFediverseM075Featuresrelayprovider":false}`,
+    doc_id: "7448594591874178",
+    lsd: "hgmSkqDnLNFckqa7t1vJdn",
   };
   let formBody: string[] = [];
   for (let property in details) {
@@ -39,7 +39,7 @@ async function findPost({
       "Sec-Fetch-Site": " same-origin",
       "User-Agent":
         "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36",
-      "X-Fb-Lsd": "uBfU8H0eeG06f5Mtrk851X",
+      "X-Fb-Lsd": "hgmSkqDnLNFckqa7t1vJdn",
       "X-Ig-App-Id": "238260118697367",
       "Content-Type": "application/x-www-form-urlencoded",
     },
@@ -51,9 +51,10 @@ async function findPost({
   }
 
   /* Handle Post Finding */
+  let thread_items = fetchThreadsAPIJson.data.data.edges[0].node.thread_items;
   let index = 0;
   let postObj =
-    fetchThreadsAPIJson.data.data.containing_thread.thread_items.filter(
+ thread_items.filter(
       (item: any) => {
         index++;
         if (item.post.code == post) return item;
@@ -65,7 +66,7 @@ async function findPost({
   if (index > 1) {
     caption =
       `⤴️ Replying to @${
-        fetchThreadsAPIJson.data.data.containing_thread.thread_items[index - 2]
+        thread_items[index - 2]
           .post.user.username
       }` +
       `\n\n` +
@@ -79,8 +80,8 @@ async function findPost({
   let oembedStat = `❤️ ${postObj.post.like_count.toLocaleString()} like${
     postObj.post.like_count > 1 || postObj.post.like_count == 0 ? "s" : ""
   } | 💬 ${
-    postObj.view_replies_cta_string
-      ? postObj.view_replies_cta_string.toLocaleString()
+    postObj.post.text_post_app_info.direct_reply_count
+      ? postObj.post.text_post_app_info.direct_reply_count.toLocaleString()
       : "0 replies"
   }`;
 
