@@ -1071,10 +1071,10 @@ execa@^5.0.0:
     signal-exit "^3.0.3"
     strip-final-newline "^2.0.0"
 
-express-rate-limit@7.3.0:
-  version "7.3.0"
-  resolved "https://registry.yarnpkg.com/express-rate-limit/-/express-rate-limit-7.3.0.tgz#b3ea0dc4fc3ca9739e3af04565184f6edcdf0240"
-  integrity sha512-ZPfWlcQQ1PsZonB/vqksOsBQV74z5osi/QcdoBCyKJXl/wOVjS1yRDmvkpMM52KJeLbiF2+djwVEnEgVCDdvtw==
+express-rate-limit@7.3.1:
+  version "7.3.1"
+  resolved "https://registry.yarnpkg.com/express-rate-limit/-/express-rate-limit-7.3.1.tgz#c0887ba746cdd358d17b8ab63d6eba1bae0f670b"
+  integrity sha512-BbaryvkY4wEgDqLgD18/NSy2lDO2jTuT9Y8c1Mpx0X63Yz0sYd5zN6KPe7UvpuSVvV33T6RaE1o1IVZQjHMYgw==
 
 express@^4.17.1:
   version "4.19.2"
