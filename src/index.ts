@@ -5,7 +5,7 @@ import "dotenv/config";
 const cloudflare = require("cloudflare-express");
 
 import { HttpError } from "./utils/utils";
-import routes from "./controllers";
+import routes from "./controllers/index";
 const app = express();
 
 /* Launch */
