@@ -53,22 +53,16 @@ async function findPost({
   /* Handle Post Finding */
   let thread_items = fetchThreadsAPIJson.data.data.edges[0].node.thread_items;
   let index = 0;
-  let postObj =
- thread_items.filter(
-      (item: any) => {
-        index++;
-        if (item.post.code == post) return item;
-      }
-    )[0];
+  let postObj = thread_items.filter((item: any) => {
+    index++;
+    if (item.post.code == post) return item;
+  })[0];
 
   /* Handle Captions */
   let caption;
   if (index > 1) {
     caption =
-      `⤴️ Replying to @${
-        thread_items[index - 2]
-          .post.user.username
-      }` +
+      `⤴️ Replying to @${thread_items[index - 2].post.user.username}` +
       `\n\n` +
       (postObj.post.caption != null ? postObj.post.caption.text : "");
   } else {
@@ -87,11 +81,11 @@ async function findPost({
 
   /* Handle Images */
   let images;
-  let vidCnt = 0;
-  if (postObj.post.carousel_media_count > 0) {
+  let vidData: VideoProps[] = [];
+  if (postObj.post.carousel_media && postObj.post.carousel_media.length > 0) {
     images = postObj.post.carousel_media.map((item: any) => {
       if (item.video_versions !== null && item.video_versions.length > 0) {
-        vidCnt++;
+        vidData.push({ url: item.video_versions[0].url });
         return;
       }
       return {
@@ -119,19 +113,13 @@ async function findPost({
 
   /* Handle Videos */
   let video: VideoProps[] = [];
-  if (postObj.post.video_versions || vidCnt >= 1) {
-    if (vidCnt > 0) {
-      video = postObj.post.carousel_media.map((item: any) => {
-        if (item.video_versions.length > 0) {
-          return {
-            url: item.video_versions[0].url,
-          };
-        } else {
-          return;
-        }
-      });
-      video = video.filter((item: any) => {
-        if (item) return item;
+  if (postObj.post.video_versions || vidData.length >= 1) {
+    if (vidData.length > 0) {
+      video = vidData.map((item: any) => {
+        console.log(item.url);
+        return {
+          url: item.url,
+        };
       });
     } else {
       if (postObj.post.video_versions.length > 0) {
@@ -172,7 +160,7 @@ async function findPost({
     post,
     username: postObj.post.user.username,
     imageType:
-      postObj.post.carousel_media_count > 0 ||
+      (postObj.post.carousel_media && postObj.post.carousel_media.count > 0) ||
       postObj.post.image_versions2.candidates.length > 0
         ? "carousel"
         : "single",
