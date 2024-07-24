@@ -51,7 +51,9 @@ export default function renderSeo({ type, content }: DataProps) {
                 ? "summary_large_image"
                 : "summary"
             }" />
-            <meta property="og:image" content="${content.images[0].url}" />`
+            ${content.images.map((img) => {
+              return `<meta property="og:image" content="${img.url}" />`;
+            })}`
             : `
             <meta name="twitter:card" content="player" />
             <meta name="twitter:player" content="${videoURL}" />
@@ -68,7 +70,9 @@ export default function renderSeo({ type, content }: DataProps) {
         }/oembed?text=${encodeURIComponent(
           content.oembedStat
         )}&url=${encodeURIComponent(url)}&videoText=${
-          content.video.length > 0 ? encodeURIComponent(content.description) : ""
+          content.video.length > 0
+            ? encodeURIComponent(content.description)
+            : ""
         }" type="application/json+oembed">
         <meta http-equiv="refresh" content="0;url=${url}" />
       </head>
