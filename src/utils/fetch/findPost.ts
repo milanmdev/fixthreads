@@ -127,7 +127,6 @@ async function findPost({
   if (postObj.post.video_versions || vidData.length >= 1) {
     if (vidData.length > 0) {
       video = vidData.map((item: any) => {
-        console.log(item.url);
         return {
           url: item.url,
         };
