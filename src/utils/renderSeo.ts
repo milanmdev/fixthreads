@@ -1,4 +1,5 @@
 import { GlobalVars } from "./utils";
+import escape from "escape-html";
 
 let proxies = process.env.PROXIES?.split(",") || [];
 
@@ -20,6 +21,7 @@ export default function renderSeo({ type, content }: DataProps) {
 
   if (content.userAgent.includes("Telegram")) content.video = [];
 
+  if (content.description) content.description = escape(content.description);
   if (
     content.description &&
     content.video.length > 0 &&
@@ -27,6 +29,7 @@ export default function renderSeo({ type, content }: DataProps) {
   ) {
     content.description = content.description.slice(0, 253) + "...";
   }
+  console.log(content.description);
 
   return `
     <!DOCTYPE html>
