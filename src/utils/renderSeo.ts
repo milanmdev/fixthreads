@@ -29,7 +29,6 @@ export default function renderSeo({ type, content }: DataProps) {
   ) {
     content.description = content.description.slice(0, 253) + "...";
   }
-  console.log(content.description);
 
   return `
     <!DOCTYPE html>

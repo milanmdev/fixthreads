@@ -130,3 +130,5 @@ dist
 .pnp.*
 
 cloudflare.yaml
+
+config/users.json
