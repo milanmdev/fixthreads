@@ -1,11 +1,12 @@
 {
   "name": "fixthreads",
-  "version": "1.7.3",
+  "version": "1.7.4",
   "main": "index.ts",
   "scripts": {
     "start": "tsx ./src/index.ts",
     "dev": "tsx --watch ./src/index.ts",
-    "cloudflare": "cloudflared tunnel --config ./cloudflare.yaml run"
+    "cloudflare": "cloudflared tunnel --config ./cloudflare.yaml run",
+    "docker": "bash ./build.sh"
   },
   "dependencies": {
     "cloudflare-express": "^1.0.1",

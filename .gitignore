@@ -132,3 +132,4 @@ dist
 cloudflare.yaml
 
 config/users.json
+generated/*

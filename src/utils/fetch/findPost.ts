@@ -75,6 +75,7 @@ async function findPost({
           fetchThreadsAPIJson.errors.length > 0
         ) {
           if (fetchThreadsAPIJson.errors[0].summary == "Not Logged In") {
+            console.log(`Error using token. Requesting new token...`);
             let tokenRefresh = await refreshToken();
             if (tokenRefresh == false) return false;
           }
