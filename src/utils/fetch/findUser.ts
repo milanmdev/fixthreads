@@ -8,7 +8,7 @@ async function findUser({
   username: string;
   userAgent: string;
 }) {
-  let postResText: any = await fetch(`https://www.threads.net/${username}`, {
+  let postResText: any = await fetch(`https://www.threads.net/@${username}`, {
     headers: {
       Accept:
         "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",

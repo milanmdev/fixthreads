@@ -4,22 +4,22 @@ import findUser from "../utils/fetch/findUser";
 import renderSeo from "../utils/renderSeo";
 const router = express.Router();
 
-router.get("/:username", async (req, res, next) => {
+router.get("/@:username", async (req, res, next) => {
   try {
     if (!req.params.username)
-      return next(new HttpError(400, "No post provided"));
+      return next(new HttpError(400, "No user provided"));
 
     const user = await findUser({
       username: req.params.username,
       userAgent: req.headers["user-agent"] || "",
     });
     if (!user || !user.title) {
-      return next(new HttpError(404, "Post not found"));
+      return next(new HttpError(404, "User not found"));
     }
 
     return res.send(
       renderSeo({
-        type: "post",
+        type: "user",
         content: user,
       })
     );
