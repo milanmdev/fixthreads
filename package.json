@@ -15,7 +15,7 @@
     "escape-html": "^1.0.3",
     "express": "^4.17.1",
     "express-rate-limit": "7.4.1",
-    "gts": "^5.0.0",
+    "gts": "^6.0.0",
     "instagram-private-api": "^1.46.1",
     "node-fetch": "^3.3.2",
     "tsx": "4.19.1"
