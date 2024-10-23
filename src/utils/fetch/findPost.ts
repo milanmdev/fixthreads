@@ -49,7 +49,10 @@ async function findPost({
   });
   let fetchThreadsAPIJson: any = await fetchThreadsAPI.json();
   if (fetchThreadsAPIJson.errors && fetchThreadsAPIJson.errors.length > 0) {
-    if (fetchThreadsAPIJson.errors[0].summary == "Not Logged In") {
+    if (
+      fetchThreadsAPIJson.errors[0].summary == "Not Logged In" ||
+      fetchThreadsAPIJson.errors[0].summary == "Not Found"
+    ) {
       let newToken = await login();
       if (newToken == false) {
         return false;

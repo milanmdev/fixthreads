@@ -1,6 +1,6 @@
 {
   "name": "fixthreads",
-  "version": "1.7.5",
+  "version": "1.7.6",
   "main": "index.ts",
   "scripts": {
     "start": "tsx ./src/index.ts",
@@ -23,11 +23,12 @@
   "devDependencies": {
     "@types/cors": "^2.8.13",
     "@types/escape-html": "^1.0.4",
-    "@types/express": "^5.0.0",
+    "@types/express": "^4.17.21",
     "typescript": "^5.1.6"
   },
   "typeRoots": [
     "./node_modules/@types",
     "./src/types"
-  ]
+  ],
+  "packageManager": "pnpm@9.12.2+sha512.22721b3a11f81661ae1ec68ce1a7b879425a1ca5b991c975b074ac220b187ce56c708fe5db69f4c962c989452eee76c82877f4ee80f474cebd61ee13461b6228"
 }

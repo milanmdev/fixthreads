@@ -3,8 +3,13 @@ FROM node:lts
 LABEL org.opencontainers.image.description "Fixes Meta's Threads metadata for sites like Discord, Telegram, etc."
 LABEL org.opencontainers.image.source "https://github.com/milanmdev/fixthreads"
 
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+
+RUN corepack enable
 WORKDIR /build
-COPY package.json yarn.lock ./
-RUN yarn install --frozen-lockfile
 COPY . .
-CMD yarn start
+
+RUN pnpm install --frozen-lockfile
+
+CMD pnpm start
