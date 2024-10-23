@@ -72,12 +72,16 @@ async function findPost({
           body: finalFormBody,
         });
         fetchThreadsAPIJson = await fetchWithAuth.json();
+        //console.log(newToken.username);
 
         if (
           fetchThreadsAPIJson.errors &&
           fetchThreadsAPIJson.errors.length > 0
         ) {
-          if (fetchThreadsAPIJson.errors[0].summary == "Not Logged In") {
+          if (
+            fetchThreadsAPIJson.errors[0].summary == "Not Logged In" ||
+            fetchThreadsAPIJson.errors[0].api_error_code == 368 // you're temporarily blocked error code
+          ) {
             console.log(`Error using token. Requesting new token...`);
             let tokenRefresh = await refreshToken();
             if (tokenRefresh == false) return false;
