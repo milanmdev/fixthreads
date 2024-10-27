@@ -17,7 +17,7 @@
     "express-rate-limit": "7.4.1",
     "instagram-private-api": "^1.46.1",
     "node-fetch": "^3.3.2",
-    "tsx": "4.19.1"
+    "tsx": "4.19.2"
   },
   "devDependencies": {
     "@types/cors": "^2.8.13",
