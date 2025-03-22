@@ -16,7 +16,9 @@ export default function renderSeo({ type, content }: DataProps) {
 
   let videoURL = "";
   if (content.video.length > 0) {
-    videoURL = `https://${proxy}/${encodeURIComponent(content.video[0].url)}`;
+    if (content.video[0].type == "ddinstagram") videoURL = content.video[0].url;
+    else if (content.video[0].type == "instagram")
+      videoURL = `https://${proxy}/${encodeURIComponent(content.video[0].url)}`;
   }
 
   if (content.userAgent.includes("Telegram")) content.video = [];
@@ -53,9 +55,11 @@ export default function renderSeo({ type, content }: DataProps) {
                 ? "summary_large_image"
                 : "summary"
             }" />
-            ${content.images.map((img) => {
-              return `<meta property="og:image" content="${img.url}" />`;
-            })}`
+            ${content.images
+              .map((img) => {
+                return `<meta property="og:image" content="${img.url}" />`;
+              })
+              .join("")}`
             : `
             <meta name="twitter:card" content="player" />
             <meta name="twitter:player" content="${videoURL}" />

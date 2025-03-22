@@ -4,6 +4,7 @@ interface ImageProps {
 
 interface VideoProps {
   url: string;
+  type?: string;
 }
 
 interface ContentProps {

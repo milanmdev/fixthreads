@@ -48,45 +48,57 @@ async function findPost({
     body: finalFormBody,
   });
   let fetchThreadsAPIJson: any = await fetchThreadsAPI.json();
+
   if (fetchThreadsAPIJson.errors && fetchThreadsAPIJson.errors.length > 0) {
     if (
       fetchThreadsAPIJson.errors[0].summary == "Not Logged In" ||
-      fetchThreadsAPIJson.errors[0].summary == "Not Found"
+      fetchThreadsAPIJson.errors[0].summary == "Not Found" ||
+      (fetchThreadsAPIJson.errors[0].message &&
+        fetchThreadsAPIJson.errors[0].message.includes("limit exceeded"))
     ) {
-      let newToken = await login();
-      if (newToken == false) {
-        return false;
-      } else {
-        let fetchWithAuth = await fetch(`https://www.threads.net/api/graphql`, {
-          method: "POST",
-          headers: {
-            "Sec-Fetch-Mode": "cors",
-            "Sec-Fetch-Site": " same-origin",
-            "User-Agent":
-              "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36",
-            "X-Fb-Lsd": "hgmSkqDnLNFckqa7t1vJdn",
-            "X-Ig-App-Id": "238260118697367",
-            "Content-Type": "application/x-www-form-urlencoded",
-            Authorization: newToken.token ? newToken.token : "",
-          },
-          body: finalFormBody,
-        });
-        fetchThreadsAPIJson = await fetchWithAuth.json();
+      let fetchWithAuth: any;
+      let generalFetchAuthErr = false;
+      try {
+        let newToken = await login();
+        if (newToken == false) {
+          return false;
+        } else {
+          fetchWithAuth = await fetch(`https://www.threads.net/api/graphql`, {
+            method: "POST",
+            headers: {
+              "Sec-Fetch-Mode": "cors",
+              "Sec-Fetch-Site": " same-origin",
+              "User-Agent":
+                "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36",
+              "X-Fb-Lsd": "hgmSkqDnLNFckqa7t1vJdn",
+              "X-Ig-App-Id": "238260118697367",
+              "Content-Type": "application/x-www-form-urlencoded",
+              Authorization: newToken.token ? newToken.token : "",
+            },
+            body: finalFormBody,
+          });
+          fetchThreadsAPIJson = await fetchWithAuth.json();
+        }
+      } catch (e) {
+        generalFetchAuthErr = true;
+      }
 
+      if (
+        (fetchThreadsAPIJson.errors && fetchThreadsAPIJson.errors.length > 0) ||
+        generalFetchAuthErr
+      ) {
         if (
-          fetchThreadsAPIJson.errors &&
-          fetchThreadsAPIJson.errors.length > 0
+          fetchThreadsAPIJson.errors[0].summary == "Not Logged In" ||
+          fetchThreadsAPIJson.errors[0].api_error_code == 368 || // you're temporarily blocked error code
+          (fetchThreadsAPIJson.errors[0].message &&
+            fetchThreadsAPIJson.errors[0].message.includes("limit exceeded")) ||
+          generalFetchAuthErr
         ) {
-          if (
-            fetchThreadsAPIJson.errors[0].summary == "Not Logged In" ||
-            fetchThreadsAPIJson.errors[0].api_error_code == 368 // you're temporarily blocked error code
-          ) {
-            console.log(
-              `Error using token. Requesting new token... ${new Date().toLocaleString()} ${post}`
-            );
-            let tokenRefresh = await refreshToken();
-            if (tokenRefresh == false) return false;
-          }
+          console.log(
+            `Error using token. Requesting new token... ${new Date().toLocaleString()} ${post}`
+          );
+          let tokenRefresh = await refreshToken();
+          if (tokenRefresh == false) return false;
         }
       }
     } else {
@@ -129,10 +141,11 @@ async function findPost({
   let images;
   let vidData: VideoProps[] = [];
   let imgType = "";
+  let hasReel = false;
   if (postObj.post.carousel_media && postObj.post.carousel_media.length > 0) {
     images = postObj.post.carousel_media.map((item: any) => {
       if (item.video_versions !== null && item.video_versions.length > 0) {
-        vidData.push({ url: item.video_versions[0].url });
+        vidData.push({ url: item.video_versions[0].url, type: "instagram" });
         return;
       }
       return {
@@ -144,12 +157,22 @@ async function findPost({
     postObj.post.text_post_app_info.link_preview_attachment &&
     postObj.post.text_post_app_info.link_preview_attachment.image_url
   ) {
-    images = [
-      {
-        url: postObj.post.text_post_app_info.link_preview_attachment.image_url,
-      },
-    ];
-    imgType = "carousel";
+    if (
+      postObj.post.text_post_app_info.link_preview_attachment.url &&
+      postObj.post.text_post_app_info.link_preview_attachment.url.includes(
+        "instagram.com/reel"
+      )
+    )
+      hasReel = true;
+    else {
+      images = [
+        {
+          url: postObj.post.text_post_app_info.link_preview_attachment
+            .image_url,
+        },
+      ];
+      imgType = "carousel";
+    }
   } else {
     if (postObj.post.image_versions2.candidates.length > 0) {
       images = [
@@ -167,6 +190,17 @@ async function findPost({
       imgType = "single";
     }
   }
+  if (hasReel) {
+    let reelId = postObj.post.text_post_app_info.link_preview_attachment.url
+      .split("/reel/")[1]
+      .split("/")[0];
+    if (reelId) {
+      vidData.push({
+        url: `https://d.ddinstagram.com/reel/${reelId}/`,
+        type: "ddinstagram",
+      });
+    }
+  }
 
   /* Handle Videos */
   let video: VideoProps[] = [];
@@ -175,6 +209,7 @@ async function findPost({
       video = vidData.map((item: any) => {
         return {
           url: item.url,
+          type: item.type,
         };
       });
     } else {
