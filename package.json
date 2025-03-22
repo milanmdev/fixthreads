@@ -23,7 +23,7 @@
   "devDependencies": {
     "@types/cors": "^2.8.17",
     "@types/escape-html": "^1.0.4",
-    "@types/express": "^4.17.21",
+    "@types/express": "^5.0.0",
     "gts": "^6.0.2",
     "typescript": "^5.8.2"
   },
