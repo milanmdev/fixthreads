@@ -1,6 +1,7 @@
 import { IgApiClient } from "instagram-private-api";
 import users from "../../../config/users.json";
 import fs from "node:fs";
+import { ThreadsAPI } from "threads-api";
 
 let tokenStore = {
   token: "",
@@ -27,7 +28,7 @@ function writeTokenFile() {
   );
 }
 
-async function runIgLogin() {
+/*async function runIgLogin() {
   if (runningLogin) return false;
   if (!users.length) return false;
   let filteredArray = users.filter(
@@ -55,6 +56,40 @@ async function runIgLogin() {
       return false;
     }
   } catch (e) {
+    return false;
+  }
+}*/
+async function runIgLogin() {
+  if (runningLogin) return false;
+  if (!users.length) return false;
+  let filteredArray = users.filter(
+    (user) => !failedCredentials.includes(user.username)
+  );
+  let trialUser = filteredArray[0];
+
+  try {
+    runningLogin = true;
+    const threads = new ThreadsAPI({
+      username: trialUser.username,
+      password: trialUser.password,
+      deviceID: trialUser.deviceId || undefined,
+    });
+    await threads.login();
+    if (!threads.token) {
+      failedCredentials.push(trialUser.username);
+      return false;
+    }
+
+    tokenStore = {
+      token: "Bearer IGT:2:" + threads.token,
+      timestamp: Date.now(),
+      username: trialUser.username,
+    };
+    runningLogin = false;
+    writeTokenFile();
+    return tokenStore;
+  } catch (e) {
+    console.error(e);
     return false;
   }
 }

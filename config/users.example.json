@@ -2,6 +2,7 @@
   {
     "id": 1,
     "username": "USERNAME",
-    "password": "PASSWORD"
+    "password": "PASSWORD",
+    "deviceId": "DEVICE_ID"
   }
 ]

@@ -11,24 +11,30 @@
   "dependencies": {
     "cloudflare-express": "^1.0.1",
     "cors": "^2.8.5",
-    "dotenv": "^16.3.1",
+    "dotenv": "^16.4.7",
     "escape-html": "^1.0.3",
-    "express": "^4.17.1",
+    "express": "^4.21.2",
     "express-rate-limit": "7.5.0",
     "instagram-private-api": "^1.46.1",
     "node-fetch": "^3.3.2",
+    "threads-api": "^1.6.3",
     "tsx": "4.19.3"
   },
   "devDependencies": {
-    "@types/cors": "^2.8.13",
+    "@types/cors": "^2.8.17",
     "@types/escape-html": "^1.0.4",
     "@types/express": "^4.17.21",
-    "typescript": "^5.1.6",
-    "gts": "^6.0.0"
+    "gts": "^6.0.2",
+    "typescript": "^5.8.2"
   },
   "typeRoots": [
     "./node_modules/@types",
     "./src/types"
   ],
-  "packageManager": "pnpm@10.6.5+sha512.cdf928fca20832cd59ec53826492b7dc25dc524d4370b6b4adbf65803d32efaa6c1c88147c0ae4e8d579a6c9eec715757b50d4fa35eea179d868eada4ed043af"
+  "packageManager": "pnpm@10.6.5+sha512.cdf928fca20832cd59ec53826492b7dc25dc524d4370b6b4adbf65803d32efaa6c1c88147c0ae4e8d579a6c9eec715757b50d4fa35eea179d868eada4ed043af",
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
+  }
 }
