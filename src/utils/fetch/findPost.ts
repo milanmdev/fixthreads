@@ -34,7 +34,7 @@ async function findPost({
   }
 
   let finalFormBody = formBody.join("&");
-  let fetchThreadsAPI = await fetch(`https://www.threads.net/api/graphql`, {
+  let fetchThreadsAPI = await fetch(`https://www.threads.com/api/graphql`, {
     method: "POST",
     headers: {
       "Sec-Fetch-Mode": "cors",
@@ -63,7 +63,7 @@ async function findPost({
         if (newToken == false) {
           return false;
         } else {
-          fetchWithAuth = await fetch(`https://www.threads.net/api/graphql`, {
+          fetchWithAuth = await fetch(`https://www.threads.com/api/graphql`, {
             method: "POST",
             headers: {
               "Sec-Fetch-Mode": "cors",

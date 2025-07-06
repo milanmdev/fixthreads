@@ -8,7 +8,7 @@ async function findUser({
   username: string;
   userAgent: string;
 }) {
-  let postResText: any = await fetch(`https://www.threads.net/@${username}`, {
+  let postResText: any = await fetch(`https://www.threads.com/@${username}`, {
     headers: {
       Accept:
         "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
@@ -16,7 +16,7 @@ async function findUser({
       "Accept-Language": "en-US,en;q=0.5",
       "Cache-Control": "no-cache",
       Connection: "	keep-alive",
-      Host: "www.threads.net",
+      Host: "www.threads.com",
       Pragma: "no-cache",
       "Sec-Fetch-Dest": "	document",
       "Sec-Fetch-Mode": "	navigate",
@@ -49,7 +49,7 @@ async function findUser({
     formBody.push(encodedKey + "=" + encodedValue);
   }
   let finalFormBody = formBody.join("&");
-  let fetchThreadsAPI = await fetch(`https://www.threads.net/api/graphql`, {
+  let fetchThreadsAPI = await fetch(`https://www.threads.com/api/graphql`, {
     method: "POST",
     headers: {
       "Sec-Fetch-Mode": "cors",
@@ -69,7 +69,7 @@ async function findUser({
       if (newToken == false) {
         return false;
       } else {
-        let fetchWithAuth = await fetch(`https://www.threads.net/api/graphql`, {
+        let fetchWithAuth = await fetch(`https://www.threads.com/api/graphql`, {
           method: "POST",
           headers: {
             "Sec-Fetch-Mode": "cors",

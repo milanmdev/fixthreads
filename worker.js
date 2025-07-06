@@ -14,7 +14,7 @@ async function stream(request) {
       accept: "*/*",
       "accept-language": "id-ID,id",
       range: "bytes=0-",
-      referer: "https://threads.net",
+      referer: "https://threads.com",
       "sec-ch-ua":
         '" Not;A Brand";v="99", "Google Chrome";v="109", "Chromium";v="109"',
       "sec-ch-ua-mobile": "?0",
