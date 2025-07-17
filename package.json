@@ -13,7 +13,7 @@
     "cors": "^2.8.5",
     "dotenv": "^17.0.0",
     "escape-html": "^1.0.3",
-    "express": "^4.21.2",
+    "express": "^5.0.0",
     "express-rate-limit": "8.0.1",
     "instagram-private-api": "^1.46.1",
     "node-fetch": "^3.3.2",
@@ -23,7 +23,7 @@
   "devDependencies": {
     "@types/cors": "^2.8.17",
     "@types/escape-html": "^1.0.4",
-    "@types/express": "^4.17.21",
+    "@types/express": "^5.0.0",
     "gts": "^6.0.2",
     "typescript": "^5.8.2"
   },
