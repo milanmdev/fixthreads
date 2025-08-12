@@ -18,7 +18,7 @@
     "instagram-private-api": "^1.46.1",
     "node-fetch": "^3.3.2",
     "threads-api": "^1.6.3",
-    "tsx": "4.20.3"
+    "tsx": "4.20.4"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
