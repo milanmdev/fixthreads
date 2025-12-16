@@ -217,6 +217,7 @@ async function findPost({
         video = [
           {
             url: postObj.post.video_versions[0].url,
+            type: "instagram",
           },
         ];
       }

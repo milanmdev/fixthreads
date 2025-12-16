@@ -16,9 +16,17 @@ export default function renderSeo({ type, content }: DataProps) {
 
   let videoURL = "";
   if (content.video.length > 0) {
-    if (content.video[0].type == "ddinstagram") videoURL = content.video[0].url;
-    else if (content.video[0].type == "instagram")
-      videoURL = `https://${proxy}/${encodeURIComponent(content.video[0].url)}`;
+    if (content.video[0].type == "ddinstagram") {
+      videoURL = content.video[0].url;
+    } else if (content.video[0].type == "instagram") {
+      if (proxy && proxies.length > 0) {
+        videoURL = `https://${proxy}/${encodeURIComponent(content.video[0].url)}`;
+      } else {
+        videoURL = content.video[0].url;
+      }
+    } else {
+      videoURL = content.video[0].url;
+    }
   }
 
   if (content.userAgent.includes("Telegram")) content.video = [];
@@ -63,9 +71,21 @@ export default function renderSeo({ type, content }: DataProps) {
             : `
             <meta name="twitter:card" content="player" />
             <meta name="twitter:player" content="${videoURL}" />
+            <meta name="twitter:player:width" content="1280" />
+            <meta name="twitter:player:height" content="720" />
+            <meta name="twitter:player:stream" content="${videoURL}" />
+            <meta name="twitter:player:stream:content_type" content="video/mp4" />
             <meta property="og:video" content="${videoURL}">
+            <meta property="og:video:url" content="${videoURL}">
             <meta property="og:video:secure_url" content="${videoURL}">
             <meta property="og:video:type" content="video/mp4">
+            <meta property="og:video:width" content="1280">
+            <meta property="og:video:height" content="720">
+            ${content.images && content.images.length > 0
+              ? `<meta property="og:image" content="${content.images[0].url}" />
+            <meta name="twitter:image" content="${content.images[0].url}" />`
+              : ""
+            }
             `
         }
 
