@@ -49,7 +49,7 @@ app.get("/", async (_req: Request, res: Response, _next: Function) => {
 });
 
 // 404
-app.all("*", async (_req: Request, res: Response, _next: Function) => {
+app.use(async (_req: Request, res: Response, _next: Function) => {
   try {
     res.status(404).json({
       error: true,
