@@ -24,7 +24,7 @@
     "@types/cors": "^2.8.17",
     "@types/escape-html": "^1.0.4",
     "@types/express": "^5.0.0",
-    "gts": "^6.0.2",
+    "gts": "^7.0.0",
     "typescript": "^5.8.2"
   },
   "typeRoots": [
