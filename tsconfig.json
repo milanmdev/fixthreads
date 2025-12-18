@@ -4,11 +4,13 @@
     "lib": ["ESNext"],
     "outDir": "lib",
     "removeComments": true,
-    "target": "ESNext",
-    "baseUrl": "./",
+    "target": "ES6",
+    "paths": {
+      "*": ["./*"]
+    },
     "esModuleInterop": true,
-    "moduleResolution": "node",
-    "paths": {},
+    "module": "NodeNext",
+    "moduleResolution": "nodenext",
     "sourceMap": true,
     "sourceRoot": "/",
     "alwaysStrict": true,

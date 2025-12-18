@@ -11,9 +11,9 @@
   "dependencies": {
     "cloudflare-express": "^1.0.1",
     "cors": "^2.8.5",
-    "dotenv": "^17.0.0",
+    "dotenv": "^17.2.3",
     "escape-html": "^1.0.3",
-    "express": "^5.0.0",
+    "express": "^5.2.1",
     "express-rate-limit": "8.2.1",
     "instagram-private-api": "^1.46.1",
     "node-fetch": "^3.3.2",
@@ -21,11 +21,11 @@
     "tsx": "4.21.0"
   },
   "devDependencies": {
-    "@types/cors": "^2.8.17",
+    "@types/cors": "^2.8.19",
     "@types/escape-html": "^1.0.4",
-    "@types/express": "^5.0.0",
+    "@types/express": "^5.0.6",
     "gts": "^7.0.0",
-    "typescript": "^5.8.2"
+    "typescript": "^5.9.3"
   },
   "typeRoots": [
     "./node_modules/@types",
