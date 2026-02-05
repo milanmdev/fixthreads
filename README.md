@@ -1,3 +1,6 @@
+# ARCHIVED
+This project has now been archived. Between Meta/Instagram/Threads blocking my accounts (to fetch posts) and Threads now having better metadata natively, it makes more sense to archive this site. Thanks for all the support!
+
 # FixThreads - Consistent Embedding of Metadata for Threads
 
 Fixes Meta's Threads metadata for sites like Discord, Telegram, etc.
